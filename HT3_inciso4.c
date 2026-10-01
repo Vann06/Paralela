@@ -16,7 +16,6 @@
  *              distribuye una parte a cada proceso utilizando
  *              MPI_Scatter().
  *----------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <mpi.h>
 
@@ -24,16 +23,17 @@ int main(int argc, char *argv[]) {
 
     int rank;
     int size;
-    int pedidos[4];
-    int pedido_recibido;
 
-    // Inicializa el entorno MPI
+    // 4 procesos x 2 datos para cada proceso
+    int datos[8];
+
+    // Cada proceso recibirá 2 datos
+    int datos_recibidos[2];
+
     MPI_Init(&argc, &argv);
 
-    // Obtener el identificador del proceso actual
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    // Obtener el numero total de procesos que participan
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     // Este ejercicio requiere exactamente 4 procesos
@@ -50,36 +50,56 @@ int main(int argc, char *argv[]) {
     // La Oficina Central define la cantidad de pedidos para cada ubicacion
     if (rank == 0) {
 
-        pedidos[0] = 120;
-        pedidos[1] = 95;
-        pedidos[2] = 140;
-        pedidos[3] = 110;
+        // Oficina Central
+        datos[0] = 120;  // pedidos
+        datos[1] = 8;    // empleados
 
-        printf("Oficina Central: distribuyendo pedidos...\n");
+        // Sucursal 1
+        datos[2] = 95;
+        datos[3] = 6;
+
+        // Sucursal 2
+        datos[4] = 140;
+        datos[5] = 10;
+
+        // Sucursal 3
+        datos[6] = 110;
+        datos[7] = 7;
+
+        printf("Oficina Central: distribuyendo pedidos y empleados...\n");
     }
 
-    // Distribuir un valor del arreglo a cada proceso
+    // Distribuir dos valores a cada proceso
     MPI_Scatter(
-        pedidos,
-        1,
+        datos,
+        2,
         MPI_INT,
-        &pedido_recibido,
-        1,
+        datos_recibidos,
+        2,
         MPI_INT,
         0,
         MPI_COMM_WORLD
     );
 
-    // Cada proceso muestra el valor que recibio
+    // Mostrar los datos recibidos
     if (rank == 0) {
-        printf("Oficina Central: %d pedidos asignados.\n",
-               pedido_recibido);
+
+        printf(
+            "Oficina Central: %d pedidos, %d empleados disponibles.\n",
+            datos_recibidos[0],
+            datos_recibidos[1]
+        );
+
     } else {
-        printf("Sucursal %d: %d pedidos asignados.\n",
-               rank, pedido_recibido);
+
+        printf(
+            "Sucursal %d: %d pedidos, %d empleados disponibles.\n",
+            rank,
+            datos_recibidos[0],
+            datos_recibidos[1]
+        );
     }
 
-    // Finaliza correctamente el entorno MPI
     MPI_Finalize();
 
     return 0;
