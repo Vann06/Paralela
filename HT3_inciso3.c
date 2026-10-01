@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
     int rank;
     int size;
     float precio;
+    float descuento = 10.0;  
 
     // Inicializa el entorno MPI
     MPI_Init(&argc, &argv);
@@ -43,11 +44,13 @@ int main(int argc, char *argv[]) {
 
     // La Oficina Central envia el precio a todos los procesos
     MPI_Bcast(&precio, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
-
+    MPI_Bcast(&descuento, 1, MPI_INT,   0, MPI_COMM_WORLD);
     // Cada sucursal muestra el precio recibido
     if (rank != 0) {
         printf("Sucursal %d: nuevo precio recibido = Q%.2f\n",
                rank, precio);
+        printf("Sucursal %d: descuento aplicado = Q%.2f\n",
+               rank, descuento);
     }
 
     // Finaliza correctamente el entorno MPI
