@@ -1,0 +1,14 @@
+experimento,modo,vacas,estrellas,hilos,estrellas_paralelas,schedule,chunk,semilla,mediciones,ms_sim_promedio,ms_sim_desviacion,speedup,eficiencia
+estrellas,paralelo,1,10,2,0,static,0,1234,10,0.299320,0.167963,0.169083,0.084542
+estrellas,paralelo,1,10,2,1,static,0,1234,10,0.496660,0.208554,0.101901,0.050950
+estrellas,serial,1,10,1,0,static,0,1234,10,0.050610,0.029405,1.000000,1.000000
+false_sharing,paralelo,50,180,2,0,static,0,1234,10,0.335270,0.120402,0.353596,0.176798
+false_sharing,paralelo,50,180,2,0,static,1,1234,10,0.278330,0.097796,0.425933,0.212967
+false_sharing,serial,50,180,1,0,static,0,1234,10,0.118550,0.058864,1.000000,1.000000
+schedule,paralelo,50,180,2,0,dynamic,0,1234,10,0.292740,0.146697,0.385701,0.192850
+schedule,paralelo,50,180,2,0,guided,0,1234,10,0.294920,0.117663,0.382850,0.191425
+schedule,paralelo,50,180,2,0,static,0,1234,10,0.270440,0.097481,0.417505,0.208752
+schedule,serial,50,180,1,0,static,0,1234,10,0.112910,0.046322,1.000000,1.000000
+speedup,paralelo,50,180,1,0,static,0,1234,10,0.091230,0.058461,1.053162,1.053162
+speedup,paralelo,50,180,2,0,static,0,1234,10,0.340350,0.251437,0.282298,0.141149
+speedup,serial,50,180,1,0,static,0,1234,10,0.096080,0.041637,1.000000,1.000000
